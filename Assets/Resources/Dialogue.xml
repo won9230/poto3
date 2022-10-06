@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+	<worksheet name="시트1">
+		<Row  index="1">
+			<Id>1</Id>
+			<name>마녀</name>
+			<sentences>일일일일일</sentences>
+		</Row >
+		<Row  index="2">
+			<Id>2</Id>
+			<name>플레이어</name>
+			<sentences>이이이이이</sentences>
+		</Row >
+		<Row  index="3">
+			<Id>3</Id>
+			<name>마녀</name>
+			<sentences>삼삼삼삼삼</sentences>
+		</Row >
+		<Row  index="4">
+			<Id>4</Id>
+<name>마녀</name>
+			<sentences>사사사사사</sentences>
+		</Row >
+	</worksheet>
+</root>
