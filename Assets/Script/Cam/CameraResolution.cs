@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 게임 해상도 관련 (기본 1920 * 1080)
+/// </summary>
 public class CameraResolution : MonoBehaviour
 {
 	private void Awake()

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 모바일 UI로 입력 등
+/// </summary>
 public class UIButtonManager : MonoBehaviour
 {
 	[SerializeField] GameObject player;

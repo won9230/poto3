@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Xml;
 
+/// <summary>
+/// XML테스트 관련
+/// </summary>
 public class XMLtest : MonoBehaviour
 {
 

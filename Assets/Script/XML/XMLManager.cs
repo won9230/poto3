@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Xml;
 
+/// <summary>
+/// XML파일 관련
+/// </summary>
 public class XMLManager : MonoBehaviour
 {
 	public void DialogueLoadXml(Dialogue dialogue,string Xml) //Xml로딩
