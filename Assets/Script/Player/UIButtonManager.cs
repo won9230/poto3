@@ -9,6 +9,8 @@ public class UIButtonManager : MonoBehaviour
 {
 	[SerializeField] GameObject player;
 	PlayerMovement playerMovement;
+
+
 	public void Init() 
 	{
 		if (player == null)

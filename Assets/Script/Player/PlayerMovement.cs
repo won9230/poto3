@@ -140,6 +140,7 @@ public class PlayerMovement : MonoBehaviour
 			StartCoroutine(AttackTime());
 			anim.MoveAttack();
 			attackRanageAnim.SetTrigger("Attack"); //공격 이펙트
+			//TBOB : 공격 콜라이더 조종
 		}
 	}
 	IEnumerator AttackTime()

@@ -22,7 +22,7 @@ public class PlayerConversation : MonoBehaviour
 	}
 	private void OnTriggerStay2D(Collider2D collision)
 	{
-		Debug.Log(collision);
+		//Debug.Log(collision);
 		if (collision.CompareTag("Npc")) //Npc와 가까워졌을 때 표시 생성
 		{
 			//Debug.Log("Npc와 접촉");
