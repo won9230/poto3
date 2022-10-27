@@ -14,7 +14,6 @@ public class PlayerMovement : MonoBehaviour
 	private bool isFacingRight = true; // Filp 관련
 	private bool isAttack = false;
 	private bool isJump = false;
-	private bool isStop = false;
 	/*모바일 관련*/
 	[HideInInspector] public bool inputLeft = false;
 	[HideInInspector] public bool inputRight = false;
@@ -23,9 +22,10 @@ public class PlayerMovement : MonoBehaviour
 
 	/*컴포넌트 밑 오브젝트*/
 	//private Animator anim;
-	private PlayerAnim anim;
+	//private PlayerAnim anim;
 	private Animator attackRanageAnim;
-	[SerializeField] private Rigidbody2D rb;
+	private PlayerManager manager;
+	[SerializeField] Rigidbody2D rb;
 	[SerializeField] private Transform groundCheck;
 	[SerializeField] private LayerMask groundLayer;
 	[SerializeField] private UIButtonManager uIButton;
@@ -38,7 +38,8 @@ public class PlayerMovement : MonoBehaviour
 	private const float JUMP_DOWN_DELAY = 0.5f;
 	private void Start()
 	{
-		anim = GetComponent<PlayerAnim>();
+		//anim = GetComponent<PlayerAnim>();
+		manager = GetComponent<PlayerManager>();
 		attackRanageAnim = attackRange.GetComponent<Animator>();
 		uIButton.Init();
 	}
@@ -59,21 +60,23 @@ public class PlayerMovement : MonoBehaviour
 
 	private void PlayerMove() //플레이어 이동
 	{
-		if (Input.GetKey(KeyCode.LeftArrow)&&!isAttack) //공격 중일때 이동 못함
+		if (!manager.isDamage)
 		{
-			RigidbodyMove(-1 * speed, rb.velocity.y);
-			anim.MoveAnim(true);
-		}
-		else if (Input.GetKey(KeyCode.RightArrow) && !isAttack)
-		{
-			RigidbodyMove(speed,rb.velocity.y);
-			anim.MoveAnim(true);
-		}
-		else
-		{
-		
-			RigidbodyMove(0, rb.velocity.y);
-			anim.MoveAnim(false);
+			if (Input.GetKey(KeyCode.LeftArrow) && !isAttack) //공격 중일때 이동 못함
+			{
+				RigidbodyMove(-1 * speed, rb.velocity.y);
+				manager.anim.MoveAnim(true);
+			}
+			else if (Input.GetKey(KeyCode.RightArrow) && !isAttack)
+			{
+				RigidbodyMove(speed, rb.velocity.y);
+				manager.anim.MoveAnim(true);
+			}
+			else
+			{
+				RigidbodyMove(0, rb.velocity.y);
+				manager.anim.MoveAnim(false);
+			}
 		}
 	}
 
@@ -82,7 +85,7 @@ public class PlayerMovement : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.LeftShift) && IsGrounded()) //땅에 붙어 있으면 점프
 		{
 			RigidbodyMove(rb.velocity.x, jumpPower);
-			anim.MoveJump(true);
+			manager.anim.MoveJump(true);
 			StartCoroutine(Jump_Down());
 		}
 		if (Input.GetKeyDown(KeyCode.LeftShift) && rb.velocity.y > 0f) //점프 높이 조절
@@ -91,7 +94,7 @@ public class PlayerMovement : MonoBehaviour
 		}
 		if (IsGrounded())
 		{
-			anim.MoveLanding(false);
+			manager.anim.MoveLanding(false);
 			isJump = false;
 		}
 		else
@@ -106,8 +109,8 @@ public class PlayerMovement : MonoBehaviour
 	IEnumerator Jump_Down() //플레이어 점프하고 내려올때
 	{
 		yield return new WaitForSeconds(JUMP_DOWN_DELAY);
-		anim.MoveJump(false);
-		anim.MoveLanding(true);
+		manager.anim.MoveJump(false);
+		manager.anim.MoveLanding(true);
 	}
 	private bool IsGrounded() //플레이어 바닥 체크
 	{
@@ -138,7 +141,7 @@ public class PlayerMovement : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Z) && !isJump && !isAttack) //점프,공격 중 일때 공격 못함
 		{
 			StartCoroutine(AttackTime());
-			anim.MoveAttack();
+			manager.anim.MoveAttack();
 			attackRanageAnim.SetTrigger("Attack"); //공격 이펙트
 			//TBOB : 공격 콜라이더 조종
 		}
@@ -146,7 +149,9 @@ public class PlayerMovement : MonoBehaviour
 	IEnumerator AttackTime()
 	{
 		isAttack = true;
+		attackRange.SetActive(true);
 		yield return new WaitForSeconds(0.3f);
+		attackRange.SetActive(false);
 		isAttack = false;
 	}
 	/// <summary>
@@ -157,17 +162,17 @@ public class PlayerMovement : MonoBehaviour
 		if (inputLeft)
 		{
 			rb.velocity = new Vector2(-1 * speed, rb.velocity.y);
-			anim.MoveAnim(true);
+			manager.anim.MoveAnim(true);
 		}
 		else if (inputRight)
 		{
 			rb.velocity = new Vector2(speed, rb.velocity.y);
-			anim.MoveAnim(true);
+			manager.anim.MoveAnim(true);
 		}
 		else
 		{
 			rb.velocity = new Vector2(0, rb.velocity.y);
-			anim.MoveAnim(false);
+			manager.anim.MoveAnim(false);
 		}
 	}
 	public void MJump() //점프
@@ -193,7 +198,7 @@ public class PlayerMovement : MonoBehaviour
 	{
 		if (inputAttack)
 		{
-			anim.MoveAttack();
+			manager.anim.MoveAttack();
 		}
 	}
 }

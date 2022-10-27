@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [CreateAssetMenu(menuName = "Inventory Item Data")]
-public class InventoryItemData : ScriptableObject
+public class InventoryItemData : ScriptableObject //아이템 데이터
 {
 	public int id;
 	public string displayName;

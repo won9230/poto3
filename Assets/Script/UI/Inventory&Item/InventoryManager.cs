@@ -32,7 +32,7 @@ public class InventoryManager : MonoBehaviour
 		itemUse = GetComponent<ItemUse>();
 		InitSlot();
 	}
-	private void InitSlot()
+	private void InitSlot()                       //시작할 떄 인벤토리 초기화
 	{
 		foreach(Slot slot in slots)
 		{
@@ -55,31 +55,43 @@ public class InventoryManager : MonoBehaviour
 			Debug.Log("슬롯이 가득찼습니다.");
 		}
 	}
-	private void ItemValue(InventoryItemData _item)
+	private void ItemValue(InventoryItemData _item) 
 	{
-		for (int i = 0; i < slots.Length; i++)
+		for (int i = 0; i < slots.Length; i++)//인벤토리에 똑같은 아이템 있으면 value 1 추가
 		{
 			if(slots[i].item == _item)
 			{
 				slots[i].item.value += 1;
+				return;
 			}
-			else
+		}
+		for (int i = 0; i < slots.Length; i++) //없으면 아이템 생성
+		{
+			if(slots[i].item != _item)
 			{
-				checkItems();
+				CheckItems(_item);
+				return;
 			}
 		}
 	}
-	private void checkItems() //플레이어 아이템 체크
+	private void CheckItems(InventoryItemData _item) 
 	{
-
 		int i = 0;
-		for (; i < itemList.Count && i < slots.Length; i++)
+		do
 		{
-			slots[i].item = itemList[i];
-		}
+			if (slots[i].item == null)                 //인벤토리 슬롯에 아이템이 없으면
+			{
+				slots[i].item = _item;                 //아이템 추가
+				slots[i].item.value = 1;               //개수 1개
+				i++;
+				break;
+			}
+			i++;
+		} while (i < itemList.Count && i < slots.Length);
+
 		for (; i < slots.Length; i++)
 		{
-			slots[i].item = null;
+			slots[i].item = null;                    //남은 슬롯 null처리
 		}
 	}
 	public bool ItemSlotExceeded() //아이템 슬롯 갯수 비교
@@ -90,12 +102,12 @@ public class InventoryManager : MonoBehaviour
 	{
 		if (item == null) //아이템 없으면 넘기기
 		{
-			Debug.Log(item);
 			return;
 		}
 		itemBigImage.color = new Color(1, 1, 1, 1);
 		itemBigImage.sprite = item.icon;
 		itemDescription.text = item.itemDescription;
+		itemValue.text = "개수 : " + item.value;
 	}
 	public void ItemUse(InventoryItemData item)
 	{

@@ -14,18 +14,14 @@ public class PlayerAnim : MonoBehaviour
 	{
 		anim = GetComponent<Animator>();
 	}
-	
-
 	public void MoveAnim(bool b)
 	{
 		anim.SetBool("Move", b);
 	}
-
 	public void MoveJump(bool b)
 	{
 		anim.SetBool("Jump", b);
 	}
-
 	public void MoveLanding(bool b)
 	{
 		anim.SetBool("Landing",b);
@@ -34,5 +30,8 @@ public class PlayerAnim : MonoBehaviour
 	{
 		anim.SetTrigger("Attack");
 	}
-
+	public void Damage()
+	{
+		anim.SetTrigger("Damage");
+	}
 }

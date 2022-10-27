@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 89201e94992bc7946bdcec0f9ae56675, type: 3}
-  m_Name: Cherry
+  m_Name: 5004
   m_EditorClassIdentifier: 
   id: 5004
   displayName: "\uCCB4\uB9AC"
   icon: {fileID: 21300000, guid: 953347826ce3fc44b9e679e2fc1ca1f6, type: 3}
+  value: 2
   itemDescription: "\uB9DB\uC788\uC5B4\uBCF4\uC774\uB294 \uCCB4\uB9AC\uB2E4"
