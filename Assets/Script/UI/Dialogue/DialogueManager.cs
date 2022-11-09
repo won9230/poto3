@@ -15,7 +15,9 @@ public class DialogueManager : MonoBehaviour
 	public Text nameText; //Npc 이름 텍스트
 	public Text dialogueText; //Npc 다이얼로드 텍스트
 	public Queue<string> sentences;
-	
+
+	public Dialogue dialogue;
+
 
 	private void Start()
 	{
@@ -28,7 +30,7 @@ public class DialogueManager : MonoBehaviour
 	{
 		xmlManager.DialogueLoadXml(dialogue, dialogueXml);
 		DialogueSetActive(true);
-		Debug.Log(dialogue.name + " : 대화 시작");
+		//Debug.Log(dialogue.name + " : 대화 시작");
 		nameText.text = dialogue.name;
 		sentences.Clear();
 
@@ -59,6 +61,10 @@ public class DialogueManager : MonoBehaviour
 			yield return null;
 		}
 	}
+	public void TriggerDialoue() //TestButton에 사용 Xml 파일 정해줌
+	{
+		StartDialogue(dialogue, "XML/Dialogue");
+	}
 	private void EndDialogue() //대사 종료
 	{
 		Debug.Log("대화 종료");
@@ -68,4 +74,5 @@ public class DialogueManager : MonoBehaviour
 	{
 		dialougeObj.SetActive(b);
 	}
+
 }

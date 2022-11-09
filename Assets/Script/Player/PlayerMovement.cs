@@ -9,7 +9,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
 	//private float horizontal;
-	private float speed = 8f; //이동속도
+	[SerializeField] private float speed = 8f; //이동속도
 	[SerializeField] private float jumpPower = 16f; //점프 파워
 	private bool isFacingRight = true; // Filp 관련
 	private bool isAttack = false;
@@ -24,22 +24,19 @@ public class PlayerMovement : MonoBehaviour
 	//private Animator anim;
 	//private PlayerAnim anim;
 	private Animator attackRanageAnim;
-	private PlayerManager manager;
-	[SerializeField] Rigidbody2D rb;
+	private PlayerManager playerManager;
+	public Rigidbody2D rb;
 	[SerializeField] private Transform groundCheck;
 	[SerializeField] private LayerMask groundLayer;
 	[SerializeField] private UIButtonManager uIButton;
 	[SerializeField] private GameObject attackRange;
-	//[SerializeField] private GameObject npcCheakBox;
 
-	[SerializeField] private float test; //디버그 테스트 용
-
-
+//	[SerializeField] private float test; //디버그 테스트 용
 	private const float JUMP_DOWN_DELAY = 0.5f;
 	private void Start()
 	{
 		//anim = GetComponent<PlayerAnim>();
-		manager = GetComponent<PlayerManager>();
+		playerManager = GetComponent<PlayerManager>();
 		attackRanageAnim = attackRange.GetComponent<Animator>();
 		uIButton.Init();
 	}
@@ -60,22 +57,22 @@ public class PlayerMovement : MonoBehaviour
 
 	private void PlayerMove() //플레이어 이동
 	{
-		if (!manager.isDamage)
+		if (!playerManager.isDamage)
 		{
 			if (Input.GetKey(KeyCode.LeftArrow) && !isAttack) //공격 중일때 이동 못함
 			{
 				RigidbodyMove(-1 * speed, rb.velocity.y);
-				manager.anim.MoveAnim(true);
+				playerManager.anim.MoveAnim(true);
 			}
 			else if (Input.GetKey(KeyCode.RightArrow) && !isAttack)
 			{
 				RigidbodyMove(speed, rb.velocity.y);
-				manager.anim.MoveAnim(true);
+				playerManager.anim.MoveAnim(true);
 			}
 			else
 			{
 				RigidbodyMove(0, rb.velocity.y);
-				manager.anim.MoveAnim(false);
+				playerManager.anim.MoveAnim(false);
 			}
 		}
 	}
@@ -85,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.LeftShift) && IsGrounded()) //땅에 붙어 있으면 점프
 		{
 			RigidbodyMove(rb.velocity.x, jumpPower);
-			manager.anim.MoveJump(true);
+			playerManager.anim.MoveJump(true);
 			StartCoroutine(Jump_Down());
 		}
 		if (Input.GetKeyDown(KeyCode.LeftShift) && rb.velocity.y > 0f) //점프 높이 조절
@@ -94,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
 		}
 		if (IsGrounded())
 		{
-			manager.anim.MoveLanding(false);
+			playerManager.anim.MoveLanding(false);
 			isJump = false;
 		}
 		else
@@ -109,8 +106,8 @@ public class PlayerMovement : MonoBehaviour
 	IEnumerator Jump_Down() //플레이어 점프하고 내려올때
 	{
 		yield return new WaitForSeconds(JUMP_DOWN_DELAY);
-		manager.anim.MoveJump(false);
-		manager.anim.MoveLanding(true);
+		playerManager.anim.MoveJump(false);
+		playerManager.anim.MoveLanding(true);
 	}
 	private bool IsGrounded() //플레이어 바닥 체크
 	{
@@ -141,7 +138,7 @@ public class PlayerMovement : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Z) && !isJump && !isAttack) //점프,공격 중 일때 공격 못함
 		{
 			StartCoroutine(AttackTime());
-			manager.anim.MoveAttack();
+			playerManager.anim.MoveAttack();
 			attackRanageAnim.SetTrigger("Attack"); //공격 이펙트
 			//TBOB : 공격 콜라이더 조종
 		}
@@ -162,17 +159,17 @@ public class PlayerMovement : MonoBehaviour
 		if (inputLeft)
 		{
 			rb.velocity = new Vector2(-1 * speed, rb.velocity.y);
-			manager.anim.MoveAnim(true);
+			playerManager.anim.MoveAnim(true);
 		}
 		else if (inputRight)
 		{
 			rb.velocity = new Vector2(speed, rb.velocity.y);
-			manager.anim.MoveAnim(true);
+			playerManager.anim.MoveAnim(true);
 		}
 		else
 		{
 			rb.velocity = new Vector2(0, rb.velocity.y);
-			manager.anim.MoveAnim(false);
+			playerManager.anim.MoveAnim(false);
 		}
 	}
 	public void MJump() //점프
@@ -198,7 +195,7 @@ public class PlayerMovement : MonoBehaviour
 	{
 		if (inputAttack)
 		{
-			manager.anim.MoveAttack();
+			playerManager.anim.MoveAttack();
 		}
 	}
 }

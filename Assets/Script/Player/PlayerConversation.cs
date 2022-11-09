@@ -18,7 +18,7 @@ public class PlayerConversation : MonoBehaviour
 	}
 	private void ConversationStart() //Npc 대화 시작
 	{
-		FindObjectOfType<DialogueTrigger>().TriggerDialoue();
+		FindObjectOfType<DialogueManager>().TriggerDialoue();
 	}
 	private void OnTriggerStay2D(Collider2D collision)
 	{

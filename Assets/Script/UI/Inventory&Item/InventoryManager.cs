@@ -21,11 +21,14 @@ public class InventoryManager : MonoBehaviour
 
 	public List<InventoryItemData> itemList = new List<InventoryItemData>();
 	[SerializeField] private Transform slotParent;
+	[SerializeField] private Transform itemUseButten;
+	private InventoryItemData itemSelect;  //선택된 아이템
 	public Image itemBigImage;
 	public Text itemDescription;
 	public Text itemValue;
 	private Slot[] slots;
 	private ItemUse itemUse;
+	
 	public void Start()
 	{
 		slots = slotParent.GetComponentsInChildren<Slot>();
@@ -40,6 +43,7 @@ public class InventoryManager : MonoBehaviour
 		}
 		itemBigImage.color = new Color(1,1,1,0);
 		itemDescription.text = "";
+		itemUseButten.gameObject.SetActive(false);
 	}
 
 	public void AddItem(InventoryItemData _item) //플레이어 아이템 추가
@@ -104,13 +108,46 @@ public class InventoryManager : MonoBehaviour
 		{
 			return;
 		}
-		itemBigImage.color = new Color(1, 1, 1, 1);
-		itemBigImage.sprite = item.icon;
-		itemDescription.text = item.itemDescription;
-		itemValue.text = "개수 : " + item.value;
+		itemSelect = item;
+		ItemRefresh(item);
 	}
-	public void ItemUse(InventoryItemData item)
+
+	public void ItemUse() //아이템 사용 버튼
 	{
-		itemUse.Item(item.id);
+		itemUse.Item(itemSelect);
+		ItemRefresh(itemSelect);
+		//Debug.Log(itemSelect);
+	}
+	private void ItemRefresh(InventoryItemData item) //아이템 정보 새로고침
+	{
+		if (itemSelect.value > 0)
+		{
+			itemBigImage.color = new Color(1, 1, 1, 1);
+			itemBigImage.sprite = item.icon;
+			itemDescription.text = item.itemDescription;
+			itemValue.text = "개수 : " + item.value;
+			itemUseButten.gameObject.SetActive(true);
+		}
+		else if (itemSelect.value <= 0)
+		{
+			itemSelect = null;
+			itemBigImage.color = new Color(1, 1, 1, 0);
+			itemBigImage.sprite = null;
+			itemDescription.text = null;
+			itemValue.text = "";
+			itemUseButten.gameObject.SetActive(false);
+			SlotItemRefresh();
+		}
+	}
+	private void SlotItemRefresh()
+	{
+		for (int i = 0; i < slots.Length; i++)
+		{
+			if (slots[i].item.value <= 0)
+			{
+				slots[i].item = null;
+				return;
+			}	
+		}
 	}
 }

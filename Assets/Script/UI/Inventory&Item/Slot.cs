@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class Slot : MonoBehaviour,IPointerClickHandler, IPointerEnterHandler,IPointerExitHandler
+public class Slot : MonoBehaviour,IPointerClickHandler
 {
 	[SerializeField] private Image image;
 
@@ -31,21 +31,7 @@ public class Slot : MonoBehaviour,IPointerClickHandler, IPointerEnterHandler,IPo
 
 	public void OnPointerClick(PointerEventData eventData)
 	{
-		Debug.Log("클릭");
+		//Debug.Log("클릭");
 		inventoryManager.SelectItem(item);
-	}
-
-	public void OnPointerEnter(PointerEventData eventData)
-	{
-		Debug.Log("들어옴");
-	}
-
-	public void OnPointerExit(PointerEventData eventData)
-	{
-		Debug.Log("나감");
-	}
-	private void ItemUse()
-	{
-		inventoryManager.ItemUse(item);
 	}
 }

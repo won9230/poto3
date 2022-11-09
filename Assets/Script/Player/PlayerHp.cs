@@ -13,19 +13,26 @@ public class PlayerHp : MonoBehaviour
 		heartAnim = GetComponentsInChildren<Animator>();
 	}
 
-	public void LostHeart(int i)
+	public void LostHeart(int hp)
 	{
-		heartAnim[i - 1].SetTrigger("HeartLost");
-		StartCoroutine(HeartSetActive(false,i));
+		for (int j = 10; j > hp; j--)
+		{
+			heartAnim[j - 1].SetTrigger("HeartLost");
+			StartCoroutine(HeartSetActive(j));
+		}
 	}
-	public void GetHeart(int i)
+	public void GetHeart(int beforeHp,int afterHp)
 	{
-		heartAnim[i - 1].SetTrigger("HeartGet");
-		StartCoroutine(HeartSetActive(true, i));
+		int _beforeHp = beforeHp;
+		for (; _beforeHp < afterHp; _beforeHp++)
+		{
+			heart[_beforeHp+1].gameObject.SetActive(true);
+			heartAnim[_beforeHp].SetTrigger("HeartGet");
+		}
 	}
-	IEnumerator HeartSetActive(bool active,int i)
+	IEnumerator HeartSetActive(int i)
 	{
-		yield return new WaitForSeconds(0.4f);
-		heart[i].gameObject.SetActive(active);
+		yield return new WaitForSeconds(0.3f);
+		heart[i].gameObject.SetActive(false);
 	}
 }
