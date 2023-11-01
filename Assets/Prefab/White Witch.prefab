@@ -225,4 +225,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 173269ef332358f47b4a570b41f0248d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  npcId: 1001
   npcConversation: {fileID: 1268960767}
